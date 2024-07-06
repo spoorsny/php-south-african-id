@@ -1,0 +1,40 @@
+{
+    "name": "spoorsny/south-african-id",
+    "description": "A self-validating value object encapsulating a South African government-issued personal identification number.",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "support": {
+        "source": "https://github.com/spoorsny/php-south-african-id/",
+        "issues": "https://github.com/spoorsny/php-south-african-id/issues"
+    },
+    "authors": [
+        {
+            "name": "Geoffrey Bernardo van Wyk",
+            "email": "geoffrey@vanwyk.biz",
+            "homepage": "https://geoffreyvanwyk.dev",
+            "role": "Programmer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Spoorsny\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spoorsny\\Tests\\": "tests"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^11.2"
+    },
+    "keywords": [
+        "spoorsny",
+        "south african",
+        "identity number",
+        "idnumber",
+        "id number",
+        "value object"
+    ]
+}
