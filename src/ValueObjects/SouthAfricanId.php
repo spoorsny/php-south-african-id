@@ -219,14 +219,12 @@ class SouthAfricanId implements BaseStringable
     {
         $dateFormat = 'ymd';
 
-        $e = new InvalidArgumentException(
-            "The value '{$this->rawValue}' does not start with a date in the format 'yymmdd'."
-        );
-
         $date = DateTime::createFromFormat("!$dateFormat", $this->dateSegment()->value());
 
         if (! $date || $date->format($dateFormat) !== $this->dateSegment()->value()) {
-            throw $e;
+            throw new InvalidArgumentException(
+                "The value '{$this->rawValue}' does not start with a date in the format 'yymmdd'."
+            );
         }
     }
 
