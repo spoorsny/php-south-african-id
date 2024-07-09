@@ -41,6 +41,7 @@
         "phpunit/phpunit": "^11.2"
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "test-coverage": "./vendor/bin/phpunit --coverage-text --coverage-html phpunit-code-coverage"
     }
 }
