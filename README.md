@@ -29,8 +29,9 @@ use Spoorsny\ValueObjects\SouthAfricanId;
 $idNumber = new SouthAfricanId('9308062469083');
 ```
 
-If the string argument is not in the valid format, an `ArgumentException` with
-a message indicative of the type of error, will be thrown.
+If the string argument is not in the valid format, an
+`InvalidArgumentException` with a message indicative of the type of error, will
+be thrown.
 
 Useful information encoded in the identity number can be extracted, for example:
 
