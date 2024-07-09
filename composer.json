@@ -1,6 +1,14 @@
 {
     "name": "spoorsny/south-african-id",
     "description": "A self-validating value object encapsulating a South African government-issued personal identification number.",
+    "keywords": [
+        "spoorsny",
+        "south african",
+        "identity number",
+        "idnumber",
+        "id number",
+        "value object"
+    ],
     "type": "library",
     "license": "GPL-3.0-or-later",
     "support": {
@@ -25,16 +33,11 @@
             "Spoorsny\\Tests\\": "tests"
         }
     },
-    "require": {},
+    "require": {
+        "illuminate/support": "^11.14",
+        "fakerphp/faker": "^1.23"
+    },
     "require-dev": {
         "phpunit/phpunit": "^11.2"
-    },
-    "keywords": [
-        "spoorsny",
-        "south african",
-        "identity number",
-        "idnumber",
-        "id number",
-        "value object"
-    ]
+    }
 }
