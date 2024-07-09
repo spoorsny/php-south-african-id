@@ -104,6 +104,16 @@ final class SouthAfricanIdTest extends TestCase
         $idNumber = new SouthAfricanId('5503252302193');
 
         $this->assertEquals('550325 2302 193', $idNumber->value());
+    }
+
+    /**
+     * A South African identity number value object can be used as a string.
+     */
+    #[Test]
+    public function it_can_be_used_as_a_string(): void
+    {
+        $idNumber = new SouthAfricanId('5503252302193');
+
         $this->assertEquals('550325 2302 193', strval($idNumber));
     }
 
