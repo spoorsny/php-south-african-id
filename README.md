@@ -1,9 +1,8 @@
 ![Repository Bannner](https://banners.beyondco.de/South%20African%20ID.png?theme=light&packageManager=composer+require&packageName=spoorsny%2Fsouth-african-id&pattern=curtain&style=style_1&description=A+self-validating+value+object+encapsulating+a+South+African+government-issued+personal+identification+number.&md=1&showWatermark=1&fontSize=100px&images=https%3A%2F%2Fwww.php.net%2Fimages%2Flogos%2Fnew-php-logo.svg&widths=500) <!-- markdownlint-disable-line first-line-h1 -->
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spoorsny/south-african-id.svg?style=flat-square)](https://packagist.org/packages/spoorsny/south-african-id)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spoorsny/php-south-african-id/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/spoorsny/php-south-african-id/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/spoorsny/php-south-african-id/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/spoorsny/php-south-african-id/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/spoorsny/south-african-id.svg?style=flat-square)](https://packagist.org/packages/spoorsny/south-african-id)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spoorsny/php-south-african-id/continuous-integration.yml?branch=master&label=tests&style=flat-square)](https://github.com/spoorsny/php-south-african-id/actions?query=workflow%3Acontinuous-integration+branch%3Amaster)
 
 # South African ID for PHP
 
