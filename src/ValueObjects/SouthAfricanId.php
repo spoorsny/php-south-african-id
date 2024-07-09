@@ -245,13 +245,29 @@ class SouthAfricanId implements BaseStringable
      */
     private function assertValidCheckDigit(): void
     {
-        $otherDigits =  $this->dateSegment()
-            ->append($this->genderSegment())
-            ->append($this->citizenshipSegment())
-            ->append($this->raceSegment())
-            ->value();
+        $luhnIsValid = function (string $number) {
+            $digits = array_map('intval', str_split($number));
+            $reversedDigits = array_reverse($digits);
 
-        if (! (Luhn::computeCheckDigit($otherDigits) === $this->checksumSegment()->value())) {
+            $checksum = array_reduce(
+                $reversedDigits,
+                function ($sum, $digit) {
+                    static $isEverySecondDigit = true;
+
+                    $isEverySecondDigit = ! $isEverySecondDigit;
+
+                    if ($isEverySecondDigit) {
+                        $digit = array_sum(str_split($digit * 2));
+                    }
+
+                    return $sum + $digit;
+                }
+            );
+
+            return $checksum % 10 === 0;
+        };
+
+        if (! $luhnIsValid($this->value)) {
             throw new InvalidArgumentException("The value '{$this->rawValue}' has an invalid checksum digit.");
         }
     }
