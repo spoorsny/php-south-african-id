@@ -33,9 +33,6 @@
             "Spoorsny\\Tests\\": "tests"
         }
     },
-    "require": {
-        "illuminate/support": "^11.14"
-    },
     "require-dev": {
         "phpunit/phpunit": "^11.2",
         "friendsofphp/php-cs-fixer": "^3.59"

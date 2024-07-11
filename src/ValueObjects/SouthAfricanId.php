@@ -22,10 +22,6 @@ use DateTime;
 use InvalidArgumentException;
 use Stringable as BaseStringable;
 
-use Faker\Calculator\Luhn;
-use Illuminate\Support\Str;
-use Illuminate\Support\Stringable;
-
 /**
  * A self-validating value object encapsulating a South African
  * government-issued personal identification number.
@@ -47,7 +43,7 @@ class SouthAfricanId implements BaseStringable
     /**
      * Underlying value encapsulated by the value object.
      */
-    private Stringable $value;
+    private string $value;
 
     /**
      * Creates a new instance of the value object.
@@ -55,7 +51,7 @@ class SouthAfricanId implements BaseStringable
     public function __construct(?string $value)
     {
         $this->rawValue = $value;
-        $this->value = Str::of($this->rawValue)->replace(' ', '');
+        $this->value = str_replace(' ', '', $this->rawValue);
 
         $this->assertIsNumeric();
         $this->assertCorrectLength();
@@ -69,48 +65,48 @@ class SouthAfricanId implements BaseStringable
      */
     public function __toString(): string
     {
-        return $this->value()->value();
+        return $this->value();
     }
 
     /**
      * Formatted version of underlying value encapsulated by the value object.
      */
-    public function value(): Stringable
+    public function value(): string
     {
         return $this->dateSegment()
-            ->append(' ')
-            ->append($this->genderSegment())
-            ->append(' ')
-            ->append($this->citizenshipSegment())
-            ->append($this->raceSegment())
-            ->append($this->checksumSegment());
+            . ' '
+            . $this->genderSegment()
+            . ' '
+            . $this->citizenshipSegment()
+            . $this->raceSegment()
+            . $this->checksumSegment();
     }
 
     /**
      * Ambiguous year in which the person was born in two-digit format, where
      * '84' could mean either '1984' or '1884', etc.
      */
-    public function birthYear(): Stringable
+    public function birthYear(): string
     {
-        return $this->dateSegment()->substr(0, 2);
+        return substr($this->dateSegment(), 0, 2);
     }
 
     /**
      * Month of the year, in which person was born in two-digit format, where
      * January is '01'.
      */
-    public function birthMonth(): Stringable
+    public function birthMonth(): string
     {
-        return $this->dateSegment()->substr(2, 2);
+        return substr($this->dateSegment(), 2, 2);
     }
 
     /**
      * Day of the month, on which person was born in two-digit format, where the
      * first day is '01'.
      */
-    public function birthDay(): Stringable
+    public function birthDay(): string
     {
-        return $this->dateSegment()->substr(4, 2);
+        return substr($this->dateSegment(), 4, 2);
     }
 
     /**
@@ -118,7 +114,7 @@ class SouthAfricanId implements BaseStringable
     */
     public function isFemale(): bool
     {
-        return intval($this->genderSegment()->value()) < 5000;
+        return intval($this->genderSegment()) < 5000;
     }
 
     /**
@@ -134,7 +130,7 @@ class SouthAfricanId implements BaseStringable
      */
     public function isCitizen(): bool
     {
-        return $this->citizenshipSegment()->value() === '0';
+        return $this->citizenshipSegment() === '0';
     }
 
     /**
@@ -143,48 +139,48 @@ class SouthAfricanId implements BaseStringable
      */
     public function isPermanentResident(): bool
     {
-        return $this->citizenshipSegment()->value() === '1';
+        return $this->citizenshipSegment() === '1';
     }
 
     /**
      * Part of the identity number that indicates the person's birth date.
      */
-    public function dateSegment(): Stringable
+    public function dateSegment(): string
     {
-        return $this->value->substr(0, 6);
+        return substr($this->value, 0, 6);
     }
 
     /**
      * Part of the identity number that indicates the person's gender.
      */
-    public function genderSegment(): Stringable
+    public function genderSegment(): string
     {
-        return $this->value->substr(6, 4);
+        return substr($this->value, 6, 4);
     }
 
     /**
      * Part of the identity number that indicates the person's citizenship
      * classification.
      */
-    public function citizenshipSegment(): Stringable
+    public function citizenshipSegment(): string
     {
-        return $this->value->substr(10, 1);
+        return substr($this->value, 10, 1);
     }
 
     /**
      * Part of the identity number that indicates the person's race.
      */
-    public function raceSegment(): Stringable
+    public function raceSegment(): string
     {
-        return $this->value->substr(11, 1);
+        return substr($this->value, 11, 1);
     }
 
     /**
      * Part of the identity number that validates the whole number.
      */
-    public function checksumSegment(): Stringable
+    public function checksumSegment(): string
     {
-        return $this->value->substr(12, 1);
+        return substr($this->value, 12, 1);
     }
 
     /**
@@ -192,7 +188,7 @@ class SouthAfricanId implements BaseStringable
      */
     private function assertIsNumeric(): void
     {
-        if (! $this->value->isMatch('/^\d+$/')) {
+        if (preg_match('/^\d+$/', $this->value) !== 1) {
             throw new InvalidArgumentException("The value '{$this->rawValue}' is not numeric.");
         }
     }
@@ -202,11 +198,11 @@ class SouthAfricanId implements BaseStringable
      */
     private function assertCorrectLength(): void
     {
-        if ($this->value->length() < 13) {
+        if (strlen($this->value) < 13) {
             throw new InvalidArgumentException("The value '{$this->rawValue}' is shorter than 13 digits.");
         }
 
-        if ($this->value->length() > 13) {
+        if (strlen($this->value) > 13) {
             throw new InvalidArgumentException("The value '{$this->rawValue}' is longer than 13 digits.");
         }
     }
@@ -218,9 +214,9 @@ class SouthAfricanId implements BaseStringable
     {
         $dateFormat = 'ymd';
 
-        $date = DateTime::createFromFormat("!$dateFormat", $this->dateSegment()->value());
+        $date = DateTime::createFromFormat("!$dateFormat", $this->dateSegment());
 
-        if (! $date || $date->format($dateFormat) !== $this->dateSegment()->value()) {
+        if (! $date || $date->format($dateFormat) !== $this->dateSegment()) {
             throw new InvalidArgumentException(
                 "The value '{$this->rawValue}' does not start with a date in the format 'yymmdd'."
             );
@@ -233,7 +229,7 @@ class SouthAfricanId implements BaseStringable
      */
     private function assertValidCitizenshipClassification(): void
     {
-        if (! in_array($this->citizenshipSegment()->value(), ['0', '1'])) {
+        if (! in_array($this->citizenshipSegment(), ['0', '1'])) {
             throw new InvalidArgumentException(
                 "The value '{$this->rawValue}' does not have a valid citizenship classification."
             );
