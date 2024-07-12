@@ -34,12 +34,14 @@
         }
     },
     "require-dev": {
+        "php": "8.3",
+        "ext-xdebug": "*",
         "phpunit/phpunit": "^11.2",
         "friendsofphp/php-cs-fixer": "^3.59"
     },
     "scripts": {
         "cs-fix": "./vendor/bin/php-cs-fixer fix . --rules=@PSR12",
         "test": "./vendor/bin/phpunit",
-        "test-coverage": "./vendor/bin/phpunit --coverage-text --coverage-html phpunit-code-coverage"
+        "test-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text --coverage-html phpunit-code-coverage"
     }
 }
