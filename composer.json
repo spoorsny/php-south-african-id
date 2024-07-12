@@ -33,8 +33,10 @@
             "Spoorsny\\Tests\\": "tests"
         }
     },
+    "require": {
+        "php": "^8.3"
+    },
     "require-dev": {
-        "php": "8.3",
         "ext-xdebug": "*",
         "phpunit/phpunit": "^11.2",
         "friendsofphp/php-cs-fixer": "^3.59"
