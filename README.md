@@ -61,3 +61,5 @@ Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 package spoorsny/south-african-id. If not, see <https://www.gnu.org/licenses/>.
+
+For a copy of the license, see the [LICENSE](LICENSE) file in this repository.
