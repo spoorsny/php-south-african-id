@@ -14,6 +14,15 @@
 # You should have received a copy of the GNU General Public License along with
 # package spoorsny/south-african-id. If not, see <https://www.gnu.org/licenses/>.
 
+##
+# GitHub Actions workflow that lints and tests new code before its integration
+# into the master branch of the source code repository.
+#
+# @see        {@link https://docs.github.com/en/actions} GitHub Actions
+# @author     Geoffrey Bernardo van Wyk <geoffrey@vanwyk.biz>
+# @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
+# @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
+##
 name: Continuous Integration
 
 on:
