@@ -65,7 +65,13 @@ class SouthAfricanId implements Stringable
      */
     public function __toString(): string
     {
-        return $this->value();
+        return $this->dateSegment()
+            . ' '
+            . $this->genderSegment()
+            . ' '
+            . $this->citizenshipSegment()
+            . $this->raceSegment()
+            . $this->checksumSegment();
     }
 
     /**
@@ -74,20 +80,6 @@ class SouthAfricanId implements Stringable
     public function equals(self $idNumber): bool
     {
         return strval($this) === strval($idNumber);
-    }
-
-    /**
-     * Formatted version of underlying value encapsulated by the value object.
-     */
-    public function value(): string
-    {
-        return $this->dateSegment()
-            . ' '
-            . $this->genderSegment()
-            . ' '
-            . $this->citizenshipSegment()
-            . $this->raceSegment()
-            . $this->checksumSegment();
     }
 
     /**
