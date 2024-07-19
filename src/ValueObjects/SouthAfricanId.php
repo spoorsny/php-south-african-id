@@ -69,6 +69,14 @@ class SouthAfricanId implements BaseStringable
     }
 
     /**
+     * Checks for equality against another instance.
+     */
+    public function equals(self $idNumber): bool
+    {
+        return strval($this) === strval($idNumber);
+    }
+
+    /**
      * Formatted version of underlying value encapsulated by the value object.
      */
     public function value(): string
