@@ -195,4 +195,18 @@ final class SouthAfricanIdTest extends TestCase
 
         new SouthAfricanId($southAfricanId);
     }
+
+    /**
+     * A South African identity number can be checked for equality with another number.
+     */
+    #[Test]
+    public function it_can_be_checked_for_equality(): void
+    {
+        $idNumber1 = new SouthAfricanId('4608162219097');
+        $idNumber2 = new SouthAfricanId('4608162219097');
+        $idNumber3 = new SouthAfricanId('8202277454090');
+
+        $this->assertTrue($idNumber1->equals($idNumber2));
+        $this->assertFalse($idNumber1->equals($idNumber3));
+    }
 }
