@@ -118,6 +118,19 @@ final class SouthAfricanIdTest extends TestCase
     }
 
     /**
+     * A South African identity number value object can be instantiated from
+     * another instance.
+     */
+    #[Test]
+    public function it_can_be_instantiated_from_another_instance(): void
+    {
+        $idNumber1 = new SouthAfricanId('5503252302193');
+        $idNumber2 = new SouthAfricanId($idNumber1);
+
+        $this->assertEquals('550325 2302 193', strval($idNumber2));
+    }
+
+    /**
      * A South African identity number is numeric.
      */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'nonnumericStrings')]
