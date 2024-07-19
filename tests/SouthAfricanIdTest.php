@@ -115,6 +115,10 @@ final class SouthAfricanIdTest extends TestCase
         $idNumber = new SouthAfricanId('5503252302193');
 
         $this->assertEquals('550325 2302 193', strval($idNumber));
+
+        $this->expectOutputString('550325 2302 193');
+
+        echo $idNumber;
     }
 
     /**
