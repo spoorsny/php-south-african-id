@@ -32,6 +32,39 @@ If the string argument is not in the valid format, an
 `InvalidArgumentException` with a message indicative of the type of error, will
 be thrown.
 
+The value object can used in places where strings are used, because it
+implements the [`Stringable`](https://php.net/Stringable) interface. For
+example, a value object can be instantiated by passing another instance to its
+constructor.
+
+```php
+$idNumber1 = new SouthAfricanId('4608162219097');
+$idNumber2 = new SouthAfricanId($idNumber1);
+```
+
+It can be used with the `strval()` function and `echo` statement.
+
+```php
+$idNumber = new SouthAfricanId('4608162219097');
+strval($idNumber); // Evaluates to '460816 2219 097'.
+echo $idNumber; // Prints '460816 2219 097'.
+```
+
+Different instances of the class can be compared with the `equals()` method.
+
+```php
+$idNumber1 = new SouthAfricanId('4608162219097');
+$idNumber2 = new SouthAfricanId('4608162219097');
+$idNumber3 = new SouthAfricanId('8202277454090');
+
+$idNumber1->equals($idNumber2);      // true
+$idNumber1->equals($idNumber3);      // false
+```
+
+Even though the identity number starts with the person's birth date, it cannot
+be used to compare whether one person is older than another. This is due to the
+century portion being missing from the date.
+
 Useful information encoded in the identity number can be extracted, for example:
 
 ```php
