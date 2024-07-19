@@ -20,7 +20,7 @@ namespace Spoorsny\ValueObjects;
 
 use DateTime;
 use InvalidArgumentException;
-use Stringable as BaseStringable;
+use Stringable;
 
 /**
  * A self-validating value object encapsulating a South African
@@ -33,7 +33,7 @@ use Stringable as BaseStringable;
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
-class SouthAfricanId implements BaseStringable
+class SouthAfricanId implements Stringable
 {
     /**
      * Value passed to constructor.
