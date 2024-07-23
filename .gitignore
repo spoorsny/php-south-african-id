@@ -3,3 +3,4 @@ vendor
 .phpunit.cache
 phpunit-code-coverage
 .phpactor.json
+phpunit-code-coverage.clover.xml

@@ -98,4 +98,46 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run test suite
-        run: composer test
+        run: composer test-coverage
+
+      - name: Upload code coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-code-coverage-report
+          path: phpunit-code-coverage.clover.xml
+          retention-days: 1
+
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: curl, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, iconv
+          coverage: xdebug
+
+      - name: Restore Composer packages
+        id: composer-cache-restore
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Download code coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: phpunit-code-coverage-report
+          path: phpunit-code-coverage.clover.xml
+
+      - name: Check code coverage
+        run: ./vendor/bin/coverage-check phpunit-code-coverage.clover.xml 100 --only-percentage
