@@ -89,6 +89,11 @@ final class SouthAfricanId implements Stringable
             . $this->checksumSegment();
     }
 
+    public function equals(): bool
+    {
+
+    }
+
     /** Ambiguous year in which the person was born in two-digit format, where
      * '84' could mean either '1984' or '1884', etc.
      */
