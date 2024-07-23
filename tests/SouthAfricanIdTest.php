@@ -131,7 +131,7 @@ final class SouthAfricanIdTest extends TestCase
         $idNumber1 = new SouthAfricanId('5503252302193');
         $idNumber2 = new SouthAfricanId($idNumber1);
 
-        $this->assertEquals('550325 2302 193', strval($idNumber2));
+        $this->assertEquals('550325 2302 193', $idNumber2);
     }
 
     /**
@@ -142,7 +142,7 @@ final class SouthAfricanIdTest extends TestCase
     public function it_is_numeric(string $southAfricanId): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("The value '{$southAfricanId}' is not numeric.");
+        $this->expectExceptionMessage("The value '{$southAfricanId}' contains nonnumeric characters.");
 
         new SouthAfricanId($southAfricanId);
     }
@@ -182,7 +182,7 @@ final class SouthAfricanIdTest extends TestCase
     public function it_starts_with_date(string $southAfricanId): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("The value '{$southAfricanId}' does not start with a date in the format 'yymmdd'.");
+        $this->expectExceptionMessage("The value '{$southAfricanId}' does not start with a date in the format 'ymd'.");
 
         new SouthAfricanId($southAfricanId);
     }
@@ -223,7 +223,7 @@ final class SouthAfricanIdTest extends TestCase
         $idNumber2 = new SouthAfricanId('4608162219097');
         $idNumber3 = new SouthAfricanId('8202277454090');
 
-        $this->assertTrue($idNumber1->equals($idNumber2));
-        $this->assertFalse($idNumber1->equals($idNumber3));
+        $this->assertTrue($idNumber1 == $idNumber2);
+        $this->assertFalse($idNumber1 == $idNumber3);
     }
 }
