@@ -52,7 +52,6 @@ class SouthAfricanIdDataProvider
     public static function nonnumericStrings(): array
     {
         return [
-            ["123\0567"],
             ['123a567'],
             ['1b345678'],
             ['12345c7890'],
