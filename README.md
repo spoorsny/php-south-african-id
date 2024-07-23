@@ -55,7 +55,8 @@ $idNumber1 = new SouthAfricanId('4608162219097');
 $idNumber2 = new SouthAfricanId($idNumber1);
 ```
 
-> [!NOTE] The value object always formats the identity number with a single
+> [!NOTE]
+> The value object always formats the identity number with a single
 > space between the date segment and the gender segment, and a single space
 > between the gender segment and the citizenship segment.
 
