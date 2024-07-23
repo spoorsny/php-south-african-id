@@ -18,7 +18,9 @@
 
 namespace Spoorsny\Tests;
 
+use ArgumentCountError;
 use InvalidArgumentException;
+use TypeError;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
@@ -132,6 +134,20 @@ final class SouthAfricanIdTest extends TestCase
         $idNumber2 = new SouthAfricanId($idNumber1);
 
         $this->assertEquals('550325 2302 193', $idNumber2);
+    }
+
+    /**
+     * A South African identity number value object must be instantiated from a raw
+     * value.
+     */
+    #[Test]
+    public function it_requires_a_raw_id_number(): void
+    {
+        $this->expectException(ArgumentCountError::class);
+        new SouthAfricanId();
+
+        $this->expectException(TypeError::class);
+        new SouthAfricanId(null);
     }
 
     /**
