@@ -40,9 +40,7 @@ use Spoorsny\ValueObjects\SouthAfricanId;
 #[CoversClass(SouthAfricanId::class)]
 final class SouthAfricanIdTest extends TestCase
 {
-    /**
-     * A South African identity number encodes a person's birthday.
-     */
+    /** A South African identity number encodes a person's birthday. */
     #[Test]
     public function it_encodes_date_of_birth(): void
     {
@@ -53,9 +51,7 @@ final class SouthAfricanIdTest extends TestCase
         $this->assertEquals('16', $idNumber->birthDay());
     }
 
-    /**
-     * A South African identity number can tell if a person is male.
-     */
+    /** A South African identity number can tell if a person is male. */
     #[Test]
     public function it_can_tell_if_person_is_male(): void
     {
@@ -64,9 +60,7 @@ final class SouthAfricanIdTest extends TestCase
         $this->assertTrue($idNumber->isMale());
     }
 
-    /**
-     * A South African identity number can tell if a person is female.
-     */
+    /** A South African identity number can tell if a person is female. */
     #[Test]
     public function it_can_tell_if_person_is_female(): void
     {
@@ -75,9 +69,7 @@ final class SouthAfricanIdTest extends TestCase
         $this->assertTrue($idNumber->isFemale());
     }
 
-    /**
-     * A South African identity number can tell if a person is a citizen.
-     */
+    /** A South African identity number can tell if a person is a citizen. */
     #[Test]
     public function it_can_tell_if_person_is_a_citizen(): void
     {
@@ -86,9 +78,7 @@ final class SouthAfricanIdTest extends TestCase
         $this->assertTrue($idNumber->isCitizen());
     }
 
-    /**
-     * A South African identity number can tell if a person is a permanent resident.
-     */
+    /** A South African identity number can tell if a person is a permanent resident. */
     #[Test]
     public function it_can_tell_if_person_is_a_permanent_resident(): void
     {
@@ -97,9 +87,7 @@ final class SouthAfricanIdTest extends TestCase
         $this->assertTrue($idNumber->isPermanentResident());
     }
 
-    /**
-     * A South African identity number has a standard formatting.
-     */
+    /** A South African identity number has a standard formatting. */
     #[Test]
     public function it_formats_the_number(): void
     {
@@ -108,9 +96,7 @@ final class SouthAfricanIdTest extends TestCase
         $this->assertEquals('550325 2302 193', $idNumber);
     }
 
-    /**
-     * A South African identity number value object can be used as a string.
-     */
+    /** A South African identity number value object can be used as a string. */
     #[Test]
     public function it_can_be_used_as_a_string(): void
     {
@@ -123,10 +109,7 @@ final class SouthAfricanIdTest extends TestCase
         echo $idNumber;
     }
 
-    /**
-     * A South African identity number value object can be instantiated from
-     * another instance.
-     */
+    /** A South African identity number value object can be instantiated from another instance. */
     #[Test]
     public function it_can_be_instantiated_from_another_instance(): void
     {
@@ -136,10 +119,7 @@ final class SouthAfricanIdTest extends TestCase
         $this->assertEquals('550325 2302 193', $idNumber2);
     }
 
-    /**
-     * A South African identity number value object must be instantiated from a raw
-     * value.
-     */
+    /** A South African identity number value object must be instantiated from a raw value. */
     #[Test]
     public function it_requires_a_raw_id_number(): void
     {
@@ -150,9 +130,7 @@ final class SouthAfricanIdTest extends TestCase
         new SouthAfricanId(null);
     }
 
-    /**
-     * A South African identity number is numeric.
-     */
+    /** A South African identity number is numeric. */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'nonnumericStrings')]
     #[Test]
     public function it_is_numeric(string $southAfricanId): void
@@ -163,9 +141,7 @@ final class SouthAfricanIdTest extends TestCase
         new SouthAfricanId($southAfricanId);
     }
 
-    /**
-     * A South African identity number contains at least 13 digits.
-     */
+    /** A South African identity number contains at least 13 digits. */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'fewerThan13Digits')]
     #[Test]
     public function it_contains_at_least_13_digits(string $southAfricanId): void
@@ -177,9 +153,7 @@ final class SouthAfricanIdTest extends TestCase
 
     }
 
-    /**
-    * A South African identity number contains at most 13 digits.
-    */
+    /** A South African identity number contains at most 13 digits. */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'moreThan13Digits')]
     #[Test]
     public function it_contains_at_most_13_digits(string $southAfricanId): void
@@ -190,9 +164,7 @@ final class SouthAfricanIdTest extends TestCase
         new SouthAfricanId($southAfricanId);
     }
 
-    /**
-     * A South African identity number starts with a date in 'yymmdd' format.
-     */
+    /** A South African identity number starts with a date in 'yymmdd' format. */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'doesNotStartWithDate')]
     #[Test]
     public function it_starts_with_date(string $southAfricanId): void
@@ -203,9 +175,7 @@ final class SouthAfricanIdTest extends TestCase
         new SouthAfricanId($southAfricanId);
     }
 
-    /**
-     * A South African identity number must correctly classify citizenship.
-     */
+    /** A South African identity number must correctly classify citizenship. */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'invalidCitizenshipClassification')]
     #[Test]
     public function it_correctly_classifies_citizenship(string $southAfricanId): void
@@ -216,9 +186,7 @@ final class SouthAfricanIdTest extends TestCase
         new SouthAfricanId($southAfricanId);
     }
 
-    /**
-     * A South African identity number must end with a valid checksum digit.
-     */
+    /** A South African identity number must end with a valid checksum digit. */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'invalidChecksumDigit')]
     #[Test]
     public function it_has_correct_checksum_digit(string $southAfricanId): void
@@ -229,9 +197,7 @@ final class SouthAfricanIdTest extends TestCase
         new SouthAfricanId($southAfricanId);
     }
 
-    /**
-     * A South African identity number can be checked for equality with another number.
-     */
+    /** A South African identity number can be checked for equality with another number. */
     #[Test]
     public function it_can_be_checked_for_equality(): void
     {

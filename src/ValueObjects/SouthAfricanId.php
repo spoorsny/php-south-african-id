@@ -72,9 +72,7 @@ final class SouthAfricanId implements Stringable
         }
     }
 
-    /**
-     * Prepare the underlying value for validation, and manipulation.
-     */
+    /** Prepare the underlying value for validation, and manipulation. */
     private function value(): string
     {
         return preg_replace('/\s/', '', $this->value);
@@ -91,8 +89,7 @@ final class SouthAfricanId implements Stringable
             . $this->checksumSegment();
     }
 
-    /**
-     * Ambiguous year in which the person was born in two-digit format, where
+    /** Ambiguous year in which the person was born in two-digit format, where
      * '84' could mean either '1984' or '1884', etc.
      */
     public function birthYear(): string
@@ -100,85 +97,61 @@ final class SouthAfricanId implements Stringable
         return substr($this->dateSegment(), 0, 2);
     }
 
-    /**
-     * Month of the year, in which person was born in two-digit format, where
-     * January is '01'.
-     */
+    /** Month of the year, in which person was born in two-digit format, where January is '01'. */
     public function birthMonth(): string
     {
         return substr($this->dateSegment(), 2, 2);
     }
 
-    /**
-     * Day of the month, on which person was born in two-digit format, where the
-     * first day is '01'.
-     */
+    /** Day of the month, on which person was born in two-digit format, where the first day is '01'. */
     public function birthDay(): string
     {
         return substr($this->dateSegment(), 4, 2);
     }
 
-    /**
-     * Is the person identified by the number a female?
-    */
+    /** Is the person identified by the number a female? */
     public function isFemale(): bool
     {
         return intval($this->genderSegment()) < self::GENDER_CUTOFF;
     }
 
-    /**
-     * Is the person identified by the number a male?
-    */
+    /** Is the person identified by the number a male? */
     public function isMale(): bool
     {
         return ! $this->isFemale();
     }
 
-    /**
-     * Is the person identified by the number a citizen of South Africa?
-     */
+    /** Is the person identified by the number a citizen of South Africa? */
     public function isCitizen(): bool
     {
         return $this->citizenshipSegment() === self::CITIZEN;
     }
 
-    /**
-     * Is the person identified by the number a foreigner to whom permanent
-     * residency has been granted?
-     */
+    /** Is the person identified by the number a foreigner to whom permanent residency has been granted? */
     public function isPermanentResident(): bool
     {
         return $this->citizenshipSegment() === self::PERMANENT_RESIDENT;
     }
 
-    /**
-     * Part of the identity number that indicates the person's birth date.
-     */
+    /** Part of the identity number that indicates the person's birth date. */
     public function dateSegment(): string
     {
         return substr($this->value(), 0, 6);
     }
 
-    /**
-     * Part of the identity number that indicates the person's gender.
-     */
+    /** Part of the identity number that indicates the person's gender. */
     public function genderSegment(): string
     {
         return substr($this->value(), 6, 4);
     }
 
-    /**
-     * Part of the identity number that indicates the person's citizenship
-     * classification.
-     */
+    /** Part of the identity number that indicates the person's citizenship classification. */
     public function citizenshipSegment(): string
     {
         return substr($this->value(), 10, 1);
     }
 
-    /**
-     * Part of the identity number that indicates the person's race.
-     */
+    /** Part of the identity number that indicates the person's race. */
     public function raceSegment(): string
     {
         return substr($this->value(), 11, 1);
@@ -231,9 +204,7 @@ final class SouthAfricanId implements Stringable
         return $rule;
     }
 
-    /**
-     * The identity number must be short enough.
-     */
+    /** The identity number must be short enough. */
     private function maxRule(): object
     {
         $rule = new stdClass();
@@ -247,9 +218,7 @@ final class SouthAfricanId implements Stringable
         return $rule;
     }
 
-    /**
-     * The identity number must start with the person's date of birth.
-     */
+    /** The identity number must start with the person's date of birth. */
     private function dateRule(): object
     {
         $rule = new stdClass();
@@ -267,10 +236,7 @@ final class SouthAfricanId implements Stringable
         return $rule;
     }
 
-    /**
-     * The identity number must indicate the citizenship classification of the
-     * person.
-     */
+    /** The identity number must indicate the citizenship classification of the person. */
     private function citizenshipRule(): object
     {
         $rule = new stdClass();
@@ -284,14 +250,12 @@ final class SouthAfricanId implements Stringable
         return $rule;
     }
 
-    /**
-     * The identity number must end with a digit that validates itself.
-     */
+    /** The identity number must end with a digit that validates itself. */
     private function checkdigitRule(): object
     {
         $rule = new stdClass();
 
-        /** @var  string Error message sent when the value fails the rule. */
+        /** @var string Error message sent when the value fails the rule. */
         $rule->message = "The value '{$this->value}' has an invalid checksum digit.";
 
         /**
