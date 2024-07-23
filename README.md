@@ -10,6 +10,19 @@ A self-validating value object encapsulating a South African
 government-issued personal [identification number](https://www.westerncape.gov.za/general-publication/decoding-your-south-african-id-number-0),
 for PHP.
 
+A South African government-issued identity number consists of **13** digits and the following segments:
+
+- **birth date:** the first **6** digits represent the person's date of birth
+  in the format \_\_yymmdd\_\_.
+- **gender:** the next **4** digits indicate that the person is male if the
+  value is **5000** or above; otherwise, female.
+- **citizenship:** the next single digit shows the person's citizenship
+  status: **0** for a citizen, **1** for a permanent resident.
+- **race:** the next single digit was historically used to indicate the person's race.
+- **check digit:** the last digit is used to validate the entire number, to
+  protect against typing errors. It is calculated with the
+  [Luhn Algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm).
+
 ## Install
 
 Use [Composer](https://getcomposer.org) to install the package.
@@ -41,6 +54,10 @@ constructor.
 $idNumber1 = new SouthAfricanId('4608162219097');
 $idNumber2 = new SouthAfricanId($idNumber1);
 ```
+
+> [!NOTE] The value object always formats the identity number with a single
+> space between the date segment and the gender segment, and a single space
+> between the gender segment and the citizenship segment.
 
 It can be used with the `strval()` function and `echo` statement.
 
@@ -77,6 +94,16 @@ $idNumber->isMale();
 
 $idNumber->isCitizen();
 $idNumber->isPermanentResident();
+```
+
+The different segments of the identity number can be extracted from the value object as follows:
+
+```php
+$idNumber->dateSegment();
+$idNumber->genderSegment();
+$idNumber->citizenshipSegment();
+$idNumber->raceSegment();
+$idNumber->checksumSegment();
 ```
 
 ## License
