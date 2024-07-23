@@ -47,18 +47,19 @@ It can be used with the `strval()` function and `echo` statement.
 ```php
 $idNumber = new SouthAfricanId('4608162219097');
 strval($idNumber); // Evaluates to '460816 2219 097'.
-echo $idNumber; // Prints '460816 2219 097'.
+echo $idNumber;    // Prints '460816 2219 097'.
 ```
 
-Different instances of the class can be compared with the `equals()` method.
+Different instances of the class can be checked for equality with the equality
+operator `==`.
 
 ```php
 $idNumber1 = new SouthAfricanId('4608162219097');
 $idNumber2 = new SouthAfricanId('4608162219097');
 $idNumber3 = new SouthAfricanId('8202277454090');
 
-$idNumber1->equals($idNumber2);      // true
-$idNumber1->equals($idNumber3);      // false
+$idNumber1 == $idNumber2; // true
+$idNumber1 == $idNumber3; // false
 ```
 
 Even though the identity number starts with the person's birth date, it cannot
@@ -68,12 +69,14 @@ century portion being missing from the date.
 Useful information encoded in the identity number can be extracted, for example:
 
 ```php
-$idNumber->isFemale();
-$idNumber->isMale();
-$idNumber->isCitizen();
-$idNumber->isPermanentResident();
 $idNumber->birthMonth();
 $idNumber->birthDay();
+
+$idNumber->isFemale();
+$idNumber->isMale();
+
+$idNumber->isCitizen();
+$idNumber->isPermanentResident();
 ```
 
 ## License

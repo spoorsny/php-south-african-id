@@ -20,7 +20,9 @@ namespace Spoorsny\ValueObjects;
 
 use DateTime;
 use InvalidArgumentException;
+use ReflectionClass;
 use Stringable;
+use stdClass;
 
 /**
  * A self-validating value object encapsulating a South African
@@ -33,36 +35,51 @@ use Stringable;
  * @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
  * @license    {@link http://www.gnu.org/copyleft/gpl.html} GNU GPL v3 or later
  */
-class SouthAfricanId implements Stringable
+final class SouthAfricanId implements Stringable
 {
-    /**
-     * Value passed to constructor.
-     */
-    private ?string $rawValue;
+    /**  Underlying value encapsulated by the value object. */
+    public readonly string $value;
+
+    /** Exact number of characters allowed in an identity number, excluding whitespace. */
+    public const SIZE = 13;
+
+    /** Format of the date with which the identity number starts. */
+    public const DATE_FORMAT = 'ymd';
 
     /**
-     * Underlying value encapsulated by the value object.
+     * Number in the gender segment of the identity number above-which the person
+     * is male (inclusive) and below-which the person is female.
      */
-    private string $value;
+    public const GENDER_CUTOFF = 5000;
 
-    /**
-     * Creates a new instance of the value object.
-     */
-    public function __construct(?string $value)
+    /** Digit that indicates that a person is a South African citizen. */
+    public const CITIZEN = '0';
+
+    /** Digit that indicates that a person is a permanent resident in South Africa. */
+    public const PERMANENT_RESIDENT = '1';
+
+    /** @throws  \InvalidArgumentException */
+    public function __construct(string $value)
     {
-        $this->rawValue = $value;
-        $this->value = str_replace(' ', '', $this->rawValue);
+        $this->value = $value;
 
-        $this->assertIsNumeric();
-        $this->assertCorrectLength();
-        $this->assertStartsWithDate();
-        $this->assertValidCitizenshipClassification();
-        $this->assertValidCheckDigit();
+        foreach (self::validationRules() as $methodName) {
+            $rule = self::$methodName();
+
+            if (($rule->fails)()) {
+                throw new InvalidArgumentException($rule->message);
+            }
+        }
     }
 
     /**
-     * Casts the value object to a string.
+     * Prepare the underlying value for validation, and manipulation.
      */
+    private function value(): string
+    {
+        return preg_replace('/\s/', '', $this->value);
+    }
+
     public function __toString(): string
     {
         return $this->dateSegment()
@@ -72,14 +89,6 @@ class SouthAfricanId implements Stringable
             . $this->citizenshipSegment()
             . $this->raceSegment()
             . $this->checksumSegment();
-    }
-
-    /**
-     * Checks for equality against another instance.
-     */
-    public function equals(self $idNumber): bool
-    {
-        return strval($this) === strval($idNumber);
     }
 
     /**
@@ -114,7 +123,7 @@ class SouthAfricanId implements Stringable
     */
     public function isFemale(): bool
     {
-        return intval($this->genderSegment()) < 5000;
+        return intval($this->genderSegment()) < self::GENDER_CUTOFF;
     }
 
     /**
@@ -130,7 +139,7 @@ class SouthAfricanId implements Stringable
      */
     public function isCitizen(): bool
     {
-        return $this->citizenshipSegment() === '0';
+        return $this->citizenshipSegment() === self::CITIZEN;
     }
 
     /**
@@ -139,7 +148,7 @@ class SouthAfricanId implements Stringable
      */
     public function isPermanentResident(): bool
     {
-        return $this->citizenshipSegment() === '1';
+        return $this->citizenshipSegment() === self::PERMANENT_RESIDENT;
     }
 
     /**
@@ -147,7 +156,7 @@ class SouthAfricanId implements Stringable
      */
     public function dateSegment(): string
     {
-        return substr($this->value, 0, 6);
+        return substr($this->value(), 0, 6);
     }
 
     /**
@@ -155,7 +164,7 @@ class SouthAfricanId implements Stringable
      */
     public function genderSegment(): string
     {
-        return substr($this->value, 6, 4);
+        return substr($this->value(), 6, 4);
     }
 
     /**
@@ -164,7 +173,7 @@ class SouthAfricanId implements Stringable
      */
     public function citizenshipSegment(): string
     {
-        return substr($this->value, 10, 1);
+        return substr($this->value(), 10, 1);
     }
 
     /**
@@ -172,77 +181,128 @@ class SouthAfricanId implements Stringable
      */
     public function raceSegment(): string
     {
-        return substr($this->value, 11, 1);
+        return substr($this->value(), 11, 1);
     }
 
-    /**
-     * Part of the identity number that validates the whole number.
-     */
+    /** Part of the identity number that validates the whole number. */
     public function checksumSegment(): string
     {
-        return substr($this->value, 12, 1);
+        return substr($this->value(), 12, 1);
+    }
+
+    /** The names of all the methods in this class, which end with "Rule". */
+    private function validationRules(): array
+    {
+        $methods = array_filter(
+            (new ReflectionClass(__CLASS__))->getMethods(),
+            fn ($method) => str_ends_with($method->name, 'Rule')
+        );
+
+        $methodNames = array_map(fn ($method) => $method->name, $methods);
+
+        return array_values($methodNames);
+    }
+
+    /** The identity number must contain only digits. */
+    private function numericRule(): object
+    {
+        $rule = new stdClass();
+
+        /** @var string Error message sent when the value fails the rule. */
+        $rule->message = "The value '{$this->value}' contains nonnumeric characters.";
+
+        /** @var callback Returns false, if the rule invalidates the value; otherwise, true. */
+        $rule->fails = fn () => preg_match('/^\d+$/', $this->value()) !== 1;
+
+        return $rule;
+    }
+
+    /** The identity number must be long enough. */
+    private function minRule(): object
+    {
+        $rule = new stdClass();
+
+        /** @var string Error message sent when the value fails the rule. */
+        $rule->message = sprintf("The value '{$this->value}' is shorter than %d digits.", self::SIZE);
+
+        /** @var callback Returns false, if the rule invalidates the value; otherwise, true. */
+        $rule->fails = fn () => strlen($this->value()) < self::SIZE;
+
+        return $rule;
     }
 
     /**
-     * The identity number must contain only digits.
+     * The identity number must be short enough.
      */
-    private function assertIsNumeric(): void
+    private function maxRule(): object
     {
-        if (preg_match('/^\d+$/', $this->value) !== 1) {
-            throw new InvalidArgumentException("The value '{$this->rawValue}' is not numeric.");
-        }
-    }
+        $rule = new stdClass();
 
-    /**
-     * The identity number must consist of the correct number of characters.
-     */
-    private function assertCorrectLength(): void
-    {
-        if (strlen($this->value) < 13) {
-            throw new InvalidArgumentException("The value '{$this->rawValue}' is shorter than 13 digits.");
-        }
+        /** @var string Error message sent when the value fails the rule. */
+        $rule->message = sprintf("The value '{$this->value}' is longer than %d digits.", self::SIZE);
 
-        if (strlen($this->value) > 13) {
-            throw new InvalidArgumentException("The value '{$this->rawValue}' is longer than 13 digits.");
-        }
+        /** @var callback Returns false, if the rule invalidates the value; otherwise, true. */
+        $rule->fails = fn () => strlen($this->value()) > self::SIZE;
+
+        return $rule;
     }
 
     /**
      * The identity number must start with the person's date of birth.
      */
-    private function assertStartsWithDate(): void
+    private function dateRule(): object
     {
-        $dateFormat = 'ymd';
+        $rule = new stdClass();
 
-        $date = DateTime::createFromFormat("!$dateFormat", $this->dateSegment());
+        /** @var string Error message sent when the value fails the rule. */
+        $rule->message = sprintf("The value '{$this->value}' does not start with a date in the format '%s'.", self::DATE_FORMAT);
 
-        if (! $date || $date->format($dateFormat) !== $this->dateSegment()) {
-            throw new InvalidArgumentException(
-                "The value '{$this->rawValue}' does not start with a date in the format 'yymmdd'."
-            );
-        }
+        /** @var callback Returns false, if the rule invalidates the value; otherwise, true. */
+        $rule->fails = function () {
+            $date = DateTime::createFromFormat("!".self::DATE_FORMAT, $this->dateSegment());
+
+            return ! $date || $date->format(self::DATE_FORMAT) !== $this->dateSegment();
+        };
+
+        return $rule;
     }
 
     /**
      * The identity number must indicate the citizenship classification of the
      * person.
      */
-    private function assertValidCitizenshipClassification(): void
+    private function citizenshipRule(): object
     {
-        if (! in_array($this->citizenshipSegment(), ['0', '1'])) {
-            throw new InvalidArgumentException(
-                "The value '{$this->rawValue}' does not have a valid citizenship classification."
-            );
-        }
+        $rule = new stdClass();
+
+        /** @var string Error message sent when the value fails the rule. */
+        $rule->message = "The value '{$this->value}' does not have a valid citizenship classification.";
+
+        /** @var callback Returns false if the rule invalidates the value; otherwise, true. */
+        $rule->fails = fn () => ! in_array($this->citizenshipSegment(), [self::CITIZEN, self::PERMANENT_RESIDENT]);
+
+        return $rule;
     }
 
     /**
      * The identity number must end with a digit that validates itself.
      */
-    private function assertValidCheckDigit(): void
+    private function checkdigitRule(): object
     {
-        $luhnIsValid = function (string $number) {
-            $digits = array_map('intval', str_split($number));
+        $rule = new stdClass();
+
+        /** @var  string Error message sent when the value fails the rule. */
+        $rule->message = "The value '{$this->value}' has an invalid checksum digit.";
+
+        /**
+         * Implementation of the Luhn algorithm.
+         *
+         * @see {@link https://en.wikipedia.org/wiki/Luhn_algorithm}
+         *
+         * @var callback Returns false, if the rule invalidates the value; otherwise, true.
+         */
+        $rule->fails = function () {
+            $digits = array_map('intval', str_split($this->value()));
             $reversedDigits = array_reverse($digits);
 
             $checksum = array_reduce(
@@ -260,11 +320,9 @@ class SouthAfricanId implements Stringable
                 }
             );
 
-            return $checksum % 10 === 0;
+            return $checksum % 10 !== 0;
         };
 
-        if (! $luhnIsValid($this->value)) {
-            throw new InvalidArgumentException("The value '{$this->rawValue}' has an invalid checksum digit.");
-        }
+        return $rule;
     }
 }
