@@ -175,6 +175,21 @@ final class SouthAfricanIdTest extends TestCase
         new SouthAfricanId($southAfricanId);
     }
 
+    /**
+     * When checking for a date, the `DateTime::createFromFormat()` method raises a
+     * `ValueError` if its argument contains a null byte. The null byte is
+     * nonnumeric and will be picked up by the nonnumeric rule before the date
+     * rule is encountered.
+     */
+    #[Test]
+    public function it_identifies_null_bytes_as_nonnumeric(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("The value '161\0030121094' contains nonnumeric characters.");
+
+        new SouthAfricanId("161\0030121094");
+    }
+
     /** A South African identity number must correctly classify citizenship. */
     #[DataProviderExternal(SouthAfricanIdDataProvider::class, methodName: 'invalidCitizenshipClassification')]
     #[Test]
