@@ -39,11 +39,12 @@
     "require-dev": {
         "ext-xdebug": "*",
         "phpunit/phpunit": "^11.2",
-        "friendsofphp/php-cs-fixer": "^3.59"
+        "friendsofphp/php-cs-fixer": "^3.59",
+        "rregeer/phpunit-coverage-check": "^0.3.1"
     },
     "scripts": {
         "cs-fix": "./vendor/bin/php-cs-fixer fix . --rules=@PSR12",
         "test": "./vendor/bin/phpunit",
-        "test-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text --coverage-html phpunit-code-coverage"
+        "test-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text --coverage-clover phpunit-code-coverage.clover.xml --coverage-html phpunit-code-coverage"
     }
 }
