@@ -3,6 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spoorsny/south-african-id.svg?style=flat-square)](https://packagist.org/packages/spoorsny/south-african-id)
 [![Total Downloads](https://img.shields.io/packagist/dt/spoorsny/south-african-id.svg?style=flat-square)](https://packagist.org/packages/spoorsny/south-african-id)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spoorsny/php-south-african-id/continuous-integration.yml?branch=master&label=tests&style=flat-square)](https://github.com/spoorsny/php-south-african-id/actions?query=workflow%3Acontinuous-integration+branch%3Amaster)
+[![PHPUnit Code Coverage](https://github.com/spoorsny/php-south-african-id/blob/image-data/coverage.svg)](https://github.com/spoorsny/php-south-african-id/actions?query=workflow%3Acontinuous-integration+branch%3Amaster)
 
 # South African ID for PHP
 
