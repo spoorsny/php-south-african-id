@@ -219,8 +219,16 @@ final class SouthAfricanIdTest extends TestCase
         $idNumber1 = new SouthAfricanId('4608162219097');
         $idNumber2 = new SouthAfricanId('4608162219097');
         $idNumber3 = new SouthAfricanId('8202277454090');
+        $idNumber4 = new SouthAfricanId('460816 2219 097');
+
 
         $this->assertTrue($idNumber1 == $idNumber2);
+        $this->assertTrue($idNumber1->equals($idNumber2));
+
         $this->assertFalse($idNumber1 == $idNumber3);
+        $this->assertFalse($idNumber1->equals($idNumber3));
+
+        $this->assertFalse($idNumber1 == $idNumber4);
+        $this->assertTrue($idNumber1->equals($idNumber4));
     }
 }

@@ -89,6 +89,16 @@ final class SouthAfricanId implements Stringable
             . $this->checksumSegment();
     }
 
+    /**
+     * A dedicated equals method is necessary, because the equals operator `==`
+     * will return false for objects in which the underlying values containing
+     * different amounts of spacing.
+     */
+    public function equals(self $other): bool
+    {
+        return $this->value() === $other->value();
+    }
+
     /** Ambiguous year in which the person was born in two-digit format, where
      * '84' could mean either '1984' or '1884', etc.
      */
