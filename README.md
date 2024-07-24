@@ -14,7 +14,7 @@ for PHP.
 A South African government-issued identity number consists of **13** digits and the following segments:
 
 - **birth date:** the first **6** digits represent the person's date of birth
-  in the format \_\_yymmdd\_\_.
+  in the format _yymmdd_.
 - **gender:** the next **4** digits indicate that the person is male if the
   value is **5000** or above; otherwise, female.
 - **citizenship:** the next single digit shows the person's citizenship
