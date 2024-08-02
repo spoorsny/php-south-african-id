@@ -16,7 +16,7 @@
 // package spoorsny/south-african-id. If not, see
 // <https://www.gnu.org/licenses/>.
 
-namespace Spoorsny\Tests;
+namespace Spoorsny\Tests\DataProviders;
 
 /**
  * Test data for validating \Spoorsny\ValueObjects\SouthAfricanId.

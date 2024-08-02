@@ -27,7 +27,7 @@ use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-use Spoorsny\Tests\SouthAfricanIdDataProvider;
+use Spoorsny\Tests\DataProviders\SouthAfricanIdDataProvider;
 use Spoorsny\ValueObjects\SouthAfricanId;
 
 /**
