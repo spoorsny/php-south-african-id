@@ -84,6 +84,10 @@ request.
 
 To contribute to the source code, follow the [fork & pull request workflow].
 
+If a pull request is meant to resolve a GitHub issue, add "Resolves #3" to the
+description of the pull request (replacing "3" with the relevant issue number).
+That way the issue is automatically closed when the pull request is merged.
+
 ## Commit Message Convention
 
 The commit messages of this library follows the [Conventional Commit]
@@ -92,6 +96,9 @@ idea is to simplify the creation and automation of changelogs.
 
 At the moment, the library's [Releases] page on GitHub serves as the changelog,
 but automating the update of a `CHANGELOG.md` file is on the today list.
+
+If a commit is related to a GitHub issue, add "Relates to #3" to the footer of
+the commit message (replacing "3" with the relevant issue number).
 
 ## GitHub Actions Workflows
 
