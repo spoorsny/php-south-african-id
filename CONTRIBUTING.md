@@ -84,6 +84,11 @@ request.
 
 To contribute to the source code, follow the [fork & pull request workflow][fork].
 
+Pull requests are always merged by "Rebase and merge" or "Squash and merge".
+Merging is not possible if the branch of the pull request is not up-to-date
+with `master`. The purpose is to maintain a linear commit history that is
+easier to understand without merge commits.
+
 If a pull request is meant to resolve a GitHub issue, add "Resolves #3" to the
 description of the pull request (replacing "3" with the relevant issue number).
 That way the issue is automatically closed when the pull request is merged.
