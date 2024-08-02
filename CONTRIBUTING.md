@@ -55,7 +55,7 @@ composer cs-fix
 
 ## Testing & Code Coverage
 
-The library has tests located in the **tests** that are based on [PHPUnit][faker]. To
+The library has tests located in the **tests** that are based on [PHPUnit][phpunit]. To
 run the tests, from the root of the repository, issue command:
 
 ```bash
@@ -123,7 +123,7 @@ indicated with a Git tag that starts with a `v`. A release is then also created
 on GitHub based on that tag, and GitHub's built-in release notes generator is
 used.
 
-[multiple-php]: https://www.digitalocean.com/community/tutorials/how-to-run-multiple-php-versions-on-one-server-using-apache-and-php-fpm-on-ubuntu-18-04#step-3-configuring-apache-for-both-websites
+[multiple-php]: https://www.digitalocean.com/community/tutorials/how-to-run-multiple-php-versions-on-one-server-using-apache-and-php-fpm-on-ubuntu-18-04
 [composer]: https://getcomposer.org
 [phpunit]: https://phpunit.de
 [faker]: https://fakerphp.org
@@ -133,5 +133,5 @@ used.
 [fork]: https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
 [convcom]: https://www.conventionalcommits.org/en/v1.0.0/
 [releases]: https://github.com/spoorsny/php-south-african-id/releases
-[pack]: https://packagist.org
+[pack]: https://packagist.org/spoorsny/south-african-id
 [semver]: https://semver.org
