@@ -16,7 +16,7 @@
 // package spoorsny/south-african-id. If not, see
 // <https://www.gnu.org/licenses/>.
 
-namespace Spoorsny\Tests;
+namespace Spoorsny\Tests\Unit;
 
 use ArgumentCountError;
 use InvalidArgumentException;
